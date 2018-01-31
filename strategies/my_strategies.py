@@ -19,13 +19,13 @@ class Strategy(StrategyTemplate):
                 self.dict2file('config.json', self.config)
 
             if now > zhisun:
-                self.log.info('%s now:%f' % (data['name'], now))
-                self.log.info('zhisun:%f high:%f\n' % (zhisun, high))
+                baifenbi = (1 - zhisun / now) * 100.0
+                self.log.info('%s now:%.2f' % (data['name'], now))
+                self.log.info('止损价:%.2f 止损百分比:%.2f%% high:%.2f\n' % (zhisun, baifenbi, high))
             else:
                 self.log.info('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-                self.log.info('!!!%s now:%f zhisun:%f high:%f!!!' % (data['name'], now, zhisun, high))
+                self.log.info('!!!%s now:%.2f 止损价:%.2f high:%.2f!!!' % (data['name'], now, zhisun, high))
                 self.log.info('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-
 
     def file2dict(self, path):
         with open(path, mode='r+', encoding='utf-8') as f:
@@ -35,7 +35,7 @@ class Strategy(StrategyTemplate):
         with open(path, mode='r+', encoding='utf-8') as f:
             json_str = json.dumps(data)
             f.write(json_str)
-            f.flush
+            f.flush()
 
 
 
