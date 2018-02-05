@@ -6,6 +6,7 @@ class Strategy(StrategyTemplate):
     name = 'zhisun策略'
 
     def strategy(self, event):
+        print('\n\n')
         self.log.info('--------------------------------')
         self.config = self.file2dict('config.json')
         for key in self.config.keys():
@@ -18,7 +19,7 @@ class Strategy(StrategyTemplate):
                 self.config[key] = str(high * 0.91)
                 self.dict2file('config.json', self.config)
 
-            baifenbi = (1 - zhisun / now) * 100.0
+            baifenbi = (1 - zhisun / (now == 0 and 0.01 or now)) * 100.0
             if now > zhisun:
                 self.log.info('%s now:%.2f' % (data['name'], now))
                 self.log.info('止损价:%.2f 止损百分比:%.2f%% high:%.2f\n' % (zhisun, baifenbi, high))
