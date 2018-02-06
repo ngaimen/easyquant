@@ -10,23 +10,24 @@ class Strategy(StrategyTemplate):
         self.log.info('--------------------------------')
         self.config = self.file2dict('config.json')
         for key in self.config.keys():
-            zhisun = float(self.config[key])
+            zhisun = float(self.config[key]['zs'])
+            zhisunbili = float(self.config[key]['zsbl'])
             data = event.data[key]
             now = float(data['now'])
             high = float(data['high'])
 
-            if high * 0.91 > zhisun:
-                self.config[key] = str(high * 0.91)
+            if high * zhisunbili > zhisun:
+                self.config[key]['zs'] = str(high * zhisunbili)
                 self.dict2file('config.json', self.config)
 
             baifenbi = (1 - zhisun / (now == 0 and 0.01 or now)) * 100.0
             if now > zhisun:
                 self.log.info('%s now:%.2f' % (data['name'], now))
-                self.log.info('止损价:%.2f 止损百分比:%.2f%% high:%.2f\n' % (zhisun, baifenbi, high))
+                self.log.info('止损价:%.2f 止损百分比:%.2f%% high:%.2f 默认比例:%.2f%%\n' % (zhisun, baifenbi, high, zhisunbili * 100))
             else:
                 self.log.info('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
                 self.log.info('%s now:%.2f' % (data['name'], now))
-                self.log.info('止损价:%.2f 止损百分比:%.2f%% high:%.2f' % (zhisun, baifenbi, high))
+                self.log.info('止损价:%.2f 止损百分比:%.2f%% high:%.2f 默认比例:%.2f%%\n' % (zhisun, baifenbi, high, zhisunbili * 100))
                 self.log.info('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n')
 
     def file2dict(self, path):
