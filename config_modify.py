@@ -1,18 +1,8 @@
 #!/usr/bin/python3
 import json
+from evan_utils import config_io
 
-def file2dict():
-    with open('config.json', mode='r', encoding='utf-8') as f:
-        return json.load(f)
-
-
-def dict2file(data):
-    with open('config.json', mode='w', encoding='utf-8') as f:
-        json_str = json.dumps(data)
-        f.write(json_str)
-        f.flush()
-
-data = file2dict()
+data = config_io.file2dict()
 choose = int(input('1.add/edit 2.delete \n'))
 code = str(input('input stock code you will edit:\n'))
 
@@ -31,4 +21,4 @@ else:
     data[code]['zs'] = str(high * zhisunbili1)
     data[code]['zs2'] = str(high * zhisunbili2)
 
-dict2file(data)
+config_io.dict2file(data)

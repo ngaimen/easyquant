@@ -1,5 +1,5 @@
 from easyquant import StrategyTemplate
-import json
+from evan_utils import config_io
 
 
 class Strategy(StrategyTemplate):
@@ -8,7 +8,7 @@ class Strategy(StrategyTemplate):
     def strategy(self, event):
         print('\n\n')
         self.log.info('--------------------------------')
-        self.config = self.file2dict('config.json')
+        self.config = config_io.file2dict()
         for key in self.config.keys():
             zhisun = float(self.config[key]['zs'])
             zhisunbili = float(self.config[key]['zsbl'])
@@ -23,7 +23,7 @@ class Strategy(StrategyTemplate):
             if high * zhisunbili > zhisun:
                 self.config[key]['zs'] = str(high * zhisunbili)
                 self.config[key]['zs2'] = str(high * zhisunbili2)
-                self.dict2file('config.json', self.config)
+                config_io.dict2file(self.config)
 
             baifenbi = (1 - zhisun / (now == 0 and 0.01 or now)) * 100.0
             baifenbi2 = (1 - zhisun2 / (now == 0 and 0.01 or now)) * 100.0
@@ -41,16 +41,6 @@ class Strategy(StrategyTemplate):
                 self.log.info('%s now:%.2f' % (data['name'], now))
                 self.log.info('止损价:%.2f 止损百分比:%.2f%% high:%.2f 默认比例:%.2f%%\n' % (zhisun2, baifenbi2, high, zhisunbili2 * 100))
                 self.log.info('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n')
-
-    def file2dict(self, path):
-        with open(path, mode='r', encoding='utf-8') as f:
-            return json.load(f) 
-
-    def dict2file(self, path, data):
-        with open(path, mode='w', encoding='utf-8') as f:
-            json_str = json.dumps(data)
-            f.write(json_str)
-            f.flush()
 
 
 
