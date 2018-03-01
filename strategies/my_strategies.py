@@ -28,18 +28,16 @@ class Strategy(StrategyTemplate):
             baifenbi = (1 - zhisun / (now == 0 and 0.01 or now)) * 100.0
             baifenbi2 = (1 - zhisun2 / (now == 0 and 0.01 or now)) * 100.0
 
+            self.log.info('\033[1;31m%s\033[0m now:%.2f' % (data['name'], now))
             if now > zhisun:
-                self.log.info('%s now:%.2f' % (data['name'], now))
                 self.log.info('止损价:%.2f 止损百分比:%.2f%% high:%.2f 默认比例:%.2f%%\n' % (zhisun, baifenbi, high, zhisunbili * 100))
             elif now > zhisun2:
                 self.log.info('!!!!!!!!!!!!!!! 跌破止损 1 !!!!!!!!!!!!!!!!')
-                self.log.info('%s now:%.2f' % (data['name'], now))
-                self.log.info('止损价:%.2f 止损百分比:%.2f%% high:%.2f 默认比例:%.2f%%\n' % (zhisun, baifenbi, high, zhisunbili * 100))
+                self.log.info('止损价:%.2f 止损百分比:%.2f%% high:%.2f 默认比例:%.2f%%' % (zhisun, baifenbi, high, zhisunbili * 100))
                 self.log.info('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n')
             else:
                 self.log.info('!!!!!!!!!!! 跌破止损 2 !!!!! 危险 !!!!!!!!!!')
-                self.log.info('%s now:%.2f' % (data['name'], now))
-                self.log.info('止损价:%.2f 止损百分比:%.2f%% high:%.2f 默认比例:%.2f%%\n' % (zhisun2, baifenbi2, high, zhisunbili2 * 100))
+                self.log.info('止损价:%.2f 止损百分比:%.2f%% high:%.2f 默认比例:%.2f%%' % (zhisun2, baifenbi2, high, zhisunbili2 * 100))
                 self.log.info('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n')
 
 
