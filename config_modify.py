@@ -9,7 +9,8 @@ code = str(input('input stock code you will edit:\n'))
 if choose == 2:
     del data[code]
 else:
-    high = float(input('input high price of this code:\n'))
+    high = float(input('输入该股票的阻力价格:\n'))
+    high = high * 1.15
     zhisunbili1 = float(input('input 止损比例1 of this code:\n'))
     zhisunbili2 = float(input('input 止损比例2 of this code:\n'))
 
