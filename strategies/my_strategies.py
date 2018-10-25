@@ -19,6 +19,7 @@ class Strategy(StrategyTemplate):
             data = event.data[key]
             now = float(data['now'])
             high = float(data['high'])
+            close = float(data['close'])
 
             if high * zhisunbili > zhisun:
                 self.config[key]['zs'] = str(high * zhisunbili)
@@ -28,7 +29,9 @@ class Strategy(StrategyTemplate):
             baifenbi = (1 - zhisun / (now == 0 and 0.01 or now)) * 100.0
             baifenbi2 = (1 - zhisun2 / (now == 0 and 0.01 or now)) * 100.0
 
-            print(' \033[1;31m%s\033[0m now:%.2f  ' % (data['name'], now), end = '')
+            zhangdiefu = (now / close - 1) * 100
+
+            print(' \033[1;31m%s\033[0m now:%.2f  涨跌幅:%.2f' % (data['name'], now, zhangdiefu), end = '')
             if now > zhisun:
                 print('止损价:%.2f 止损百分比:%.2f%% high:%.2f 默认比例:%.2f%%\n' % (zhisun, baifenbi, high, zhisunbili * 100))
             elif now > zhisun2:
