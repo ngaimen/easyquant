@@ -31,7 +31,7 @@ class Strategy(StrategyTemplate):
 
             zhangdiefu = (now / close - 1) * 100
 
-            print(' \033[1;31m%s\033[0m now:%.2f  涨跌幅:%.2f' % (data['name'], now, zhangdiefu), end = '')
+            print(' \033[1;31m%s\033[0m now:%.2f  涨跌幅:%.2f ' % (data['name'], now, zhangdiefu), end = '')
             if now > zhisun:
                 print('止损价:%.2f 止损百分比:%.2f%% high:%.2f 默认比例:%.2f%%\n' % (zhisun, baifenbi, high, zhisunbili * 100))
             elif now > zhisun2:
