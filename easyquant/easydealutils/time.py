@@ -8,10 +8,19 @@ import requests
 @lru_cache()
 def _is_holiday(day):
     # 该接口可能将于 2016.7.1 过期, 请关注该主页
-    api = 'http://www.easybots.cn/api/holiday.php'
-    params = {'d': day}
-    rep = requests.get(api, params)
-    res = rep.json()[day if isinstance(day, str) else day[0]]
+    try:
+        api = 'http://www.easybots.cn/api/holiday.php'
+        params = {'d': day}
+        rep = requests.get(api, params)
+        res = rep.json()[day if isinstance(day, str) else day[0]]
+    except Exception as e:
+        print(str(e))
+        api = 'http://tool.bitefu.net/jiari'
+        params = {'d': day}
+        rep = requests.get(api, params)
+        res = str(rep.json())
+        if res != '0':
+            res = '1'
     return True if res == "1" else False
 
 
